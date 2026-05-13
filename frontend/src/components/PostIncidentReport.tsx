@@ -15,6 +15,30 @@ function AnimatedCounter({ from, to }: { from: number, to: number }) {
 }
 
 export default function PostIncidentReport() {
+  const handleExportCSV = () => {
+    // Generate mock CSV data
+    const csvContent = "Event ID,Phase,Time,Description\n" +
+      "TN-FLD-2026,PRE_DISASTER,Oct 12 08:00 AM,IMD Orange Alert received. NDMA mobilized.\n" +
+      "TN-FLD-2026,MID_DISASTER,Oct 14 02:00 AM,Flood thresholds crossed in Chennai. 300+ SOS active.\n" +
+      "TN-FLD-2026,POST_DISASTER,Oct 18 06:00 PM,Water receding. Relief claims and recovery started.";
+
+    // Create a blob and trigger download
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'IDRS_Post_Incident_Report.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleDownloadPDF = (e: React.MouseEvent) => {
+    e.preventDefault();
+    // Use the browser's native print-to-PDF functionality for the dashboard
+    window.print();
+  };
+
   return (
     <div className="w-full max-w-6xl mx-auto flex flex-col h-full overflow-y-auto pr-4">
       <div className="flex justify-between items-center mb-8">
@@ -23,17 +47,18 @@ export default function PostIncidentReport() {
           <p className="text-gray-400 mt-1">Tamil Nadu Floods 2026 - Event ID: #TN-FLD-2026</p>
         </div>
         <div className="flex gap-4">
-          <button className="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded flex items-center gap-2 border border-gray-600 transition-colors">
+          <button 
+            onClick={handleExportCSV}
+            className="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded flex items-center gap-2 border border-gray-600 transition-colors"
+          >
             <FileText size={18} /> Export CSV
           </button>
-          <a 
-            href="http://localhost:8000/api/v1/reports/export/pdf" 
-            target="_blank"
-            rel="noreferrer"
-            className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded flex items-center gap-2 transition-colors"
+          <button 
+            onClick={handleDownloadPDF}
+            className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded flex items-center gap-2 transition-colors shadow-lg shadow-blue-500/20"
           >
             <Download size={18} /> Download PDF Report
-          </a>
+          </button>
         </div>
       </div>
 

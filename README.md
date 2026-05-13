@@ -1,118 +1,83 @@
-# IDRS: Adaptive Disaster Lifecycle Management Platform
+# IDRS — Next-Gen Disaster Intelligence & Command Nexus
 
-![IDRS Banner](https://images.unsplash.com/photo-1454789548928-9efd52dc4031?q=80&w=2000&auto=format&fit=crop)
+![IDRS Command Dashboard](https://raw.githubusercontent.com/shivrajpatare/IDRS/main/preview.png)
 
-**IDRS** is an intelligent, phase-aware disaster management platform designed specifically for the unique operational challenges in India. It bridges the critical gap between public citizens facing emergencies and the centralized Command Control Rooms coordinating relief efforts.
-
-By operating across **PRE**, **MID**, and **POST** disaster phases, IDRS ensures predictive resource allocation, real-time SOS prioritization, automated misinformation filtering, and transparent post-disaster recovery tracking.
-
----
-
-## 🌟 Key Features
-
-### 📡 Real-time Command Dashboard
-* **Unified Map**: High-fidelity Leaflet-based dark mode maps overlaying live SOS pings, facility statuses, and resource unit positions.
-* **Smart SOS Queue**: Incoming distress signals are automatically processed by the ML Priority Engine, factoring in injury severity, zone density, and time decay to ensure critical cases are routed first.
-* **Facilities Monitor**: Live tracking of Hospital beds and Shelter capacities with WebSocket-powered visual alerts for overflowing zones.
-* **Verification Center**: AI-driven credibility scoring immediately flags anonymous or suspicious reports to prevent misinformation loops.
-
-### 📱 Citizen PWA (Progressive Web App)
-* **Offline First**: Offline SOS queueing. If network drops during a cyclone or flood, SOS data is stored in IndexedDB and instantly synced upon reconnection.
-* **Animated UI**: Built with `framer-motion` for a premium, responsive, and calming aesthetic during high-stress situations.
-* **Recovery Workflows**: Direct pipeline for citizens to file Aid Claims and Missing Person reports securely from the POST_DISASTER phase tab.
-
-### 🧠 ML Service Layer
-* `/score/sos-priority`: Calculates dynamic SOS scores.
-* `/score/credibility`: Authenticates and scores incoming incident reports.
-* `/score/fraud`: Prevents duplicate identity and cluster anomalies during Aid Registration.
-* `/match/missing-person`: Pattern matching for missing persons against found registries.
+## 🌐 Vision
+The **Intelligent Disaster Response System (IDRS)** is a high-fidelity, military-grade tactical simulation and coordination hub designed for the **National Disaster Management Authority (NDMA)**. It leverages real-time geospatial intelligence, neural AI analysis, and hyper-local GPS tracking to orchestrate large-scale rescue operations across complex urban environments like Greater Chennai.
 
 ---
 
-## 🏗 Architecture & Tech Stack
+## 🚀 Core Pillars
 
-IDRS operates as a Monorepo comprised of three primary services:
+### 1. 🛰️ Tactical Command Nexus
+A professional-grade situational awareness engine for mission commanders.
+*   **Obsidian-Visuals**: High-contrast, dark-ops mapping engine powered by MapLibre-GL.
+*   **Real-Time Interception**: Dynamic tracking of rescue assets (AS-01, AS-02, AS-03) with live flight/path interpolation.
+*   **Strategic Overrides**: Instant scenario modeling for Floods, Cyclones, and mass asset deployment.
+*   **Verified Truth Layer**: Replacement of synthetic markers with real-world hospitals, shelters, and NGO hubs.
 
-1. **Frontend**: Vite + React + TypeScript + Tailwind CSS + Framer Motion
-2. **Backend Engine**: FastAPI + SQLAlchemy + Python WebSockets
-3. **ML Service**: FastAPI microservice for AI inference
-4. **Database**: SQLite (Development) / PostgreSQL + PostGIS (Production)
+### 2. 🧠 Gemini AI Tactical Advisor
+Synthesizing chaos into actionable intelligence using **Gemini 2.5 Flash**.
+*   **Situational Briefings**: Real-time AI-generated tactical summaries based on live distress feeds.
+*   **Threat Evaluation**: Automated threat-level scoring with 90%+ confidence modeling.
+*   **Coordinated Recommendations**: AI-driven action plans for surgical resource allocation.
+
+### 3. 📱 Personal Citizen Nexus
+A GPS-aware portal designed for public safety and recovery.
+*   **Voyager Navigation**: A clean, daylight-optimized street-level map for easy city navigation.
+*   **Live GPS Handshake**: Near-instant device localization using high-accuracy geolocation protocols.
+*   **Hyper-Local Weather**: Real-time atmospheric conditions (temp, humidity, wind) synced to the user's exact coordinates.
+*   **Smart Extraction Routing**: Intelligence-led routing to the nearest available "Safe Zone" or Medical Node.
 
 ---
 
-## 🚀 Getting Started
+## 🛠️ Technology Stack
 
-### Prerequisites
-* **Node.js** (v18+)
-* **Python** (3.9+)
-* **npm** or **yarn**
+| Component | Technology |
+| :--- | :--- |
+| **Frontend** | React 18, Vite, Framer Motion |
+| **Mapping** | MapLibre-GL, Carto Voyager/Dark-Matter |
+| **Intelligence** | Gemini 2.5 Flash (via Google Generative AI) |
+| **Backend** | FastAPI (Python), Uvicorn |
+| **Communication** | WebSocket (Live Feed), HTTP/REST |
+| **Styling** | Tailwind CSS, Lucide Icons |
 
-### 1. Clone the Repository
+---
+
+## 📦 Installation & Setup
+
+### 1. Prerequisites
+*   Node.js (v18+)
+*   Python 3.9+
+*   Gemini API Key (Google AI Studio)
+
+### 2. Backend Initialization
 ```bash
-git clone https://github.com/yourusername/idrs.git
-cd idrs
-```
-
-### 2. Setup the Main Backend
-```bash
-cd backend
-python -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+cd idrs/backend
 pip install -r requirements.txt
-
-# Start the server (runs on port 8000)
-uvicorn main:app --reload --port 8000
+python main.py
 ```
 
-### 3. Setup the ML Service
+### 3. Frontend Initialization
 ```bash
-# Open a new terminal
-cd ml
-python -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-pip install -r requirements.txt
-
-# Start the ML server (runs on port 8001)
-uvicorn main:app --reload --port 8001
-```
-
-### 4. Setup the Citizen & Command Frontend
-```bash
-# Open a new terminal
-cd frontend
+cd idrs/frontend
 npm install
-
-# Start the Vite development server (runs on port 5173)
 npm run dev
 ```
 
 ---
 
-## 💻 Running the Demo Simulation
-Once all three servers are running, navigate to `http://localhost:5173/command` in your browser. 
-
-1. Open the **Demo Controls** drawer located in the top-right corner.
-2. Click **Start PRE Phase** to initialize the platform.
-3. Click **Trigger Flood Event (MID)** to watch the WebSockets simulate 5 staggered SOS requests and update facility statuses in real time.
-4. Click **Simulate Rescue Progress** to see the system auto-assign units.
-5. Alternatively, click **Run Full Auto Demo** to watch the entire 60-second lifecycle autonomously.
+## 🛡️ Strategic Deployment
+IDRS is designed to handle **High-Stakes Coordination**. 
+*   **Red SOS Dots**: Represent live, GPS-verified citizen distress signals.
+*   **Blue/Orange Assets**: Represent coordinated NDRF/SDRF rescue units.
+*   **Strategic Scenarios**: Commanders can toggle between Flood and Cyclone overlays to adapt to shifting environmental threats.
 
 ---
 
-## 📖 API Documentation
-With the backend running, interactive Swagger API documentation is automatically generated.
-* **Main Backend Docs**: `http://localhost:8000/docs`
-* **ML Service Docs**: `http://localhost:8001/docs`
+## 👨‍💻 Author
+**Shivraj Patare**  
+*Strategic Response Intelligence Lead*
 
 ---
-
-## 🛡 Security & Best Practices
-* **RBAC Implementation**: Routes are strictly guarded via JWT tokens, separating Citizen endpoints from Operator/Admin control functions.
-* **Audit Logging**: Every critical state mutation (SOS Assignment, Facility Update) triggers the robust internal Audit Logger.
-* **Rate Limiting & Fraud**: Built-in logic prevents SOS spam and flags potentially fraudulent relief claims during the recovery phase.
-
-## 🤝 Contributing
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/yourusername/idrs/issues).
-
-## 📄 License
-This project is proprietary.
+*Powered by the Luminous Protocol v4.2*

@@ -1,12 +1,20 @@
 import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { FacilitiesTableSkeleton } from './Skeleton';
 
 const MOCK_FACILITIES = [
-  { id: 1, type: "hospital", name: "TN Govt Hospital 1", zone: "Chennai_Velachery", total: 200, avail: 45, status: "Operational" },
-  { id: 2, type: "hospital", name: "TN Govt Hospital 2", zone: "Chennai_Adyar", total: 150, avail: 12, status: "Critical" },
-  { id: 3, type: "shelter", name: "Relief Camp 1", zone: "Chennai_Velachery", total: 500, avail: 120, status: "Operational" },
+  { id: 1, type: 'hospital', name: 'Rajiv Gandhi Govt General Hospital', zone: 'Chennai', total: 2722, avail: 843, status: 'Operational' },
+  { id: 2, type: 'hospital', name: 'Govt Kilpauk Medical College',       zone: 'Chennai', total: 884,  avail: 52,  status: 'Critical'     },
+  { id: 3, type: 'shelter',  name: 'Velachery Relief Camp',             zone: 'Chennai', total: 500,  avail: 180, status: 'Operational'   },
+  { id: 4, type: 'hospital', name: 'Govt Hospital Cuddalore',           zone: 'Cuddalore', total: 550, avail: 210, status: 'Operational'  },
+  { id: 5, type: 'hospital', name: 'Govt District HQ Hospital',         zone: 'Nagapattinam', total: 500, avail: 98, status: 'Operational'},
 ];
 
 export default function FacilitiesMonitor() {
+  const [loading] = useState(false); // flip true for skeletons
+
+  if (loading) return <FacilitiesTableSkeleton />;
+
   return (
     <div className="w-full max-w-6xl mx-auto">
       <h2 className="text-2xl font-bold mb-6">Facilities Monitor</h2>

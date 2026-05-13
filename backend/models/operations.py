@@ -14,7 +14,8 @@ class SOSRequest(Base):
     injury_level = Column(String)
     priority_score = Column(Float)
     status = Column(String, default="pending")
-    created_at = Column(DateTime, default=datetime.utcnow)
+    message = Column(String, nullable=True)
+    reported_at = Column(DateTime, default=datetime.utcnow)
     resolved_at = Column(DateTime, nullable=True)
 
     __table_args__ = (

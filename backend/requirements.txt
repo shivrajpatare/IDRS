@@ -14,3 +14,5 @@ httpx
 pytest-asyncio
 websockets
 reportlab
+apscheduler
+firebase-admin

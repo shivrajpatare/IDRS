@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
+import Map, { Source, Layer, Marker, Popup, NavigationControl } from 'react-map-gl/maplibre';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 const MOCK_INFRA = [
-  { id: 1, zone: "Chennai North", roads: "Damaged", power: "Operational", water: "Damaged", telecom: "Operational" },
-  { id: 2, zone: "Cuddalore", roads: "Damaged", power: "Damaged", water: "Damaged", telecom: "Damaged" },
-  { id: 3, zone: "Nagapattinam", roads: "Operational", power: "Restored", water: "Damaged", telecom: "Operational" },
+  { id: 1, zone: "Chennai North", roads: "Damaged", power: "Operational", water: "Damaged", telecom: "Operational", lat: 13.1000, lng: 80.2500 },
+  { id: 2, zone: "Cuddalore", roads: "Damaged", power: "Damaged", water: "Damaged", telecom: "Damaged", lat: 11.7480, lng: 79.7738 },
+  { id: 3, zone: "Nagapattinam", roads: "Operational", power: "Restored", water: "Damaged", telecom: "Operational", lat: 10.7661, lng: 79.8433 },
 ];
 
 export default function InfraStatusMap() {
@@ -16,14 +19,42 @@ export default function InfraStatusMap() {
     }
   };
 
+  const getMarkerColor = (infra: typeof MOCK_INFRA[0]) => {
+    const damaged = [infra.roads, infra.power, infra.water, infra.telecom].filter(s => s === 'Damaged').length;
+    if (damaged >= 3) return '#ef4444';
+    if (damaged >= 1) return '#f59e0b';
+    return '#10b981';
+  };
+
   return (
     <div className="w-full max-w-6xl mx-auto flex flex-col h-full">
       <h2 className="text-2xl font-bold mb-6">Infrastructure Status Map</h2>
       
       <div className="grid grid-cols-2 gap-6 h-full">
-        <div className="bg-gray-800 rounded-xl border border-gray-700 p-4 relative overflow-hidden flex items-center justify-center">
-           <div className="absolute inset-0 bg-[url('https://cartodb-basemaps-c.global.ssl.fastly.net/dark_all/13/6000/3800.png')] opacity-40 bg-cover bg-center pointer-events-none" />
-           <p className="z-10 text-gray-400 font-bold">Live Geo-Overlay (Leaflet placeholder)</p>
+        <div className="bg-gray-800 rounded-xl border border-gray-700 relative overflow-hidden">
+          <Map
+            initialViewState={{
+              longitude: 78.6569,
+              latitude: 11.1271,
+              zoom: 7
+            }}
+            mapStyle="https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
+          >
+            <NavigationControl position="top-right" />
+            {MOCK_INFRA.map(infra => (
+              <Marker key={infra.id} longitude={infra.lng} latitude={infra.lat} anchor="center">
+                <div
+                  className="rounded-full border-2 border-white/60"
+                  style={{
+                    width: 24, height: 24,
+                    background: getMarkerColor(infra),
+                    opacity: 0.8,
+                    boxShadow: `0 0 12px ${getMarkerColor(infra)}88`
+                  }}
+                />
+              </Marker>
+            ))}
+          </Map>
         </div>
 
         <div className="flex flex-col gap-4 overflow-y-auto pr-2">

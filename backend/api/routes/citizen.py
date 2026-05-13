@@ -18,9 +18,15 @@ class SOSCreate(BaseModel):
     injury_level: str
     event_id: int
     zone_id: int
+    message: str | None = None
 
 @router.post("/sos")
 async def create_sos(sos_in: SOSCreate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+    """
+    Allow a citizen to trigger an SOS request.
+    """
+    if current_user.role and current_user.role.name not in ["citizen", "admin"]:
+        raise HTTPException(status_code=403, detail="Only citizens can trigger SOS requests")
     sos = SOSRequest(
         citizen_id=current_user.id,
         event_id=sos_in.event_id,
@@ -28,6 +34,7 @@ async def create_sos(sos_in: SOSCreate, db: Session = Depends(get_db), current_u
         lat=sos_in.lat,
         lng=sos_in.lng,
         injury_level=sos_in.injury_level,
+        message=sos_in.message,
         status="pending"
     )
     db.add(sos)
@@ -57,12 +64,30 @@ def get_sos_status(id: int, db: Session = Depends(get_db)):
 
 @router.get("/nearby-hospitals")
 def get_nearby_hospitals(lat: float, lng: float, db: Session = Depends(get_db)):
-    # Mock PostGIS sort with simple calculation for MVP if PostGIS not enabled.
-    # In a real app: order_by(Facility.geometry.distance_centroid(...))
-    facilities = db.query(Facility).filter(Facility.type == "hospital").all()
-    # Sort in memory for the scaffold
+    from sqlalchemy.orm import joinedload
+    # Load status info with facilities
+    facilities = db.query(Facility).options(joinedload(Facility.status_info)).filter(Facility.type == "hospital").all()
+    
+    # Sort by distance
     facilities.sort(key=lambda f: (f.lat - lat)**2 + (f.lng - lng)**2)
-    return facilities
+    
+    results = []
+    for f in facilities[:5]: # Return top 5 closest
+        results.append({
+            "id": f.id,
+            "name": f.name,
+            "lat": f.lat,
+            "lng": f.lng,
+            "ownership_type": f.ownership_type,
+            "operational_status": f.status_info.operational_status if f.status_info else "unknown",
+            "capacity_total": f.status_info.capacity_total if f.status_info else 0,
+            "capacity_available": f.status_info.capacity_available if f.status_info else 0,
+            # Rough distance estimation (Euclidean distance for sorting, we can return approximate km)
+            # 1 degree is roughly 111km
+            "distance_km": round((((f.lat - lat)**2 + (f.lng - lng)**2)**0.5) * 111, 1)
+        })
+        
+    return results
 
 @router.get("/nearby-shelters")
 def get_nearby_shelters(lat: float, lng: float, db: Session = Depends(get_db)):

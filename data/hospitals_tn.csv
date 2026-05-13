@@ -1,0 +1,17 @@
+name,address,district,latitude,longitude,type,total_beds
+Rajiv Gandhi Government General Hospital,Poonamallee High Rd,Chennai,13.0827,80.2707,public,2722
+Government Stanley Medical College Hospital,Old Jail Rd,Chennai,13.1075,80.2858,public,1271
+Government Kilpauk Medical College Hospital,Poonamallee High Rd,Chennai,13.0782,80.2443,public,884
+Apollo Hospitals Greams Road,Greams Rd,Chennai,13.0617,80.2542,private,560
+Kauvery Hospital,Alwarpet,Chennai,13.0331,80.2544,private,200
+Fortis Malar Hospital,Adyar,Chennai,13.0116,80.2565,private,180
+Government Hospital Cuddalore,Nellikuppam Rd,Cuddalore,11.7516,79.7616,public,550
+Rajah Muthiah Medical College Hospital,Annamalai Nagar,Cuddalore,11.3916,79.7143,public,1100
+Krishna Hospital,Manjakuppam,Cuddalore,11.7450,79.7630,private,150
+Cuddalore GH,Beach Road,Cuddalore,11.7410,79.7710,public,400
+Pudupalayam PHC,Pudupalayam,Cuddalore,11.7480,79.7680,public,30
+Government District Headquarters Hospital,Nagapattinam,Nagapattinam,10.7656,79.8424,public,500
+Sirkazhi Government Hospital,Sirkazhi,Nagapattinam,11.2384,79.7360,public,200
+Vedaranyam Government Hospital,Vedaranyam,Nagapattinam,10.3756,79.8510,public,150
+Nagapattinam GH South,South Street,Nagapattinam,10.7600,79.8400,public,100
+Apollo Clinic Nagapattinam,Main Road,Nagapattinam,10.7700,79.8500,private,50

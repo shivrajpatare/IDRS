@@ -1,11 +1,126 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+*, *::before, *::after { box-sizing: border-box; }
 
 html, body, #root {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: #030712; /* gray-950 */
+  min-height: 100%; width: 100%; margin: 0; padding: 0;
+  background-color: #f5f7f9;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color-scheme: light;
+}
+
+:root {
+  /* Nexus Luminous Palette */
+  --primary: #00666c;
+  --primary-container: #00f1fe;
+  --secondary: #006947;
+  --secondary-container: #69f6b8;
+  --background: #f5f7f9;
+  --surface: #ffffff;
+  --surface-container: #e5e9eb;
+  --surface-container-high: #dfe3e6;
+  --on-surface: #2c2f31;
+  --on-surface-variant: #595c5e;
+  
+  --glass-border: rgba(0, 102, 108, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  
+  /* Utilities */
+  --shadow-luminous: 0 20px 40px rgba(0, 241, 254, 0.1);
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.03);
+}
+
+/* ── Typography ── */
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--on-surface);
+}
+
+h1, h2, h3, .font-technical {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* ── UI Primitives ── */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+}
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 102, 108, 0.05);
+}
+
+.glow-cyan { filter: drop-shadow(0 0 12px rgba(0, 241, 254, 0.4)); }
+.glow-emerald { filter: drop-shadow(0 0 12px rgba(105, 246, 184, 0.4)); }
+
+/* ── Custom Scrollbar ── */
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--surface-container-high);
+  border-radius: 10px;
+}
+
+/* ── Animations ── */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float { animation: float 6s ease-in-out infinite; }
+
+/* ── Grid Overlay (Refreshing Version) ── */
+.grid-overlay {
+  background-image: 
+    linear-gradient(var(--surface-container) 1px, transparent 1px),
+    linear-gradient(90deg, var(--surface-container) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ── Data Stream (Subtle) ── */
+@keyframes stream {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+.data-stream {
+  background: linear-gradient(to bottom, transparent, var(--primary-container), transparent);
+  width: 1px;
+  height: 100px;
+  animation: stream 4s linear infinite;
+}
+
+/* ── Radar Sweep (Luminous) ── */
+@keyframes radar {
+  0% { transform: translate(-50%, -50%) rotate(0deg); opacity: 0; }
+  50% { opacity: 0.2; }
+  100% { transform: translate(-50%, -50%) rotate(360deg); opacity: 0; }
+}
+.radar-sweep {
+  border: 2px solid var(--primary-container);
+  border-radius: 50%;
+  animation: radar 8s linear infinite;
+  mask-image: conic-gradient(from 0deg, black, transparent);
+}
+
+/* ── Hyper Responsive Spacing ── */
+.p-dynamic { padding: clamp(1rem, 3vw, 3rem); }
+.gap-dynamic { gap: clamp(1rem, 2vw, 2.5rem); }
+
+/* ── Grainy Texture (Softened) ── */
+.grainy {
+  position: relative;
+}
+.grainy::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.02;
+  pointer-events: none;
 }

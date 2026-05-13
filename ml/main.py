@@ -5,6 +5,10 @@ import random
 
 app = FastAPI(title="IDRS ML Service")
 
+@app.get("/")
+def read_root():
+    return {"status": "live", "service": "IDRS ML Service", "version": "v1.0.0"}
+
 class SOSScoreInput(BaseModel):
     injury_level: str
     zone_id: int
@@ -46,27 +50,28 @@ class MatchInput(BaseModel):
 
 @app.post("/score/sos-priority")
 def score_sos(input_data: SOSScoreInput):
-    base = 2.0
-    if input_data.injury_level.lower() == "critical":
-        base += 2.0
+    # Deterministic heuristic: Critical = 5.0, Severe = 4.0, Moderate = 3.0, minor = 2.0
+    scores = {"critical": 5.0, "severe": 4.0, "moderate": 3.0, "minor": 2.0}
+    priority = scores.get(input_data.injury_level.lower(), 1.0)
+    
     return {
-        "priority_score": min(5.0, base + random.uniform(0.1, 0.9)),
-        "reasoning": "High injury severity detected."
+        "priority_score": priority,
+        "reasoning": f"Calculated based on {input_data.injury_level} injury level."
     }
 
 @app.post("/score/credibility")
 def score_credibility(input_data: CredibilityInput):
+    # Rule-based credibility
     score = 0.5
-    if input_data.source_type in ["gov", "ndma"]:
-        score = 0.9
+    if input_data.source_type.lower() in ["gov", "ndma", "official"]:
+        score = 0.95
     elif input_data.has_evidence:
-        score += 0.2
+        score = 0.75
     
-    score = min(1.0, score + random.uniform(-0.1, 0.1))
     return {
         "credibility_score": score,
-        "is_flagged": score < 0.35,
-        "explanation": "Scored based on source reputation and evidence."
+        "is_flagged": score < 0.4,
+        "explanation": "Verified based on source reputation and evidence status."
     }
 
 @app.post("/score/fraud")

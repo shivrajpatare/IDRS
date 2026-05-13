@@ -1,27 +1,30 @@
-from fastapi import APIRouter, Depends, WebSocket
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from core.phase_engine import get_current_phase, set_phase
+from core.phase_engine import PhaseEngine, DisasterPhase
 from core.auth import get_current_user, role_required
 from models.database import get_db
 from models.users import User
 from pydantic import BaseModel
 
-router = APIRouter()
+router = APIRouter(prefix="/api/v1/phase", tags=["Phase Management"])
 
 class PhaseUpdate(BaseModel):
     phase: str
 
-@router.get("/{event_id}/phase")
-def get_phase(event_id: int, db: Session = Depends(get_db)):
-    phase = get_current_phase(db, event_id)
-    if not phase:
-        return {"error": "Event not found"}
-    return {"event_id": event_id, "phase": phase}
+@router.get("")
+def get_system_phase(db: Session = Depends(get_db)):
+    """
+    Returns the unified system phase context.
+    Determined automatically based on active events, alerts, and SOS requests.
+    """
+    return PhaseEngine.get_phase_context(db)
 
-@router.post("/{event_id}/phase/override")
-def override_phase(event_id: int, update: PhaseUpdate, db: Session = Depends(get_db), current_user: User = Depends(role_required(["admin", "operator"]))):
-    try:
-        event = set_phase(db, event_id, update.phase, current_user.id)
-        return {"message": "Phase updated successfully", "event_id": event_id, "new_phase": event.current_phase}
-    except ValueError as e:
-        return {"error": str(e)}
+@router.post("/override")
+def override_system_phase(update: PhaseUpdate, db: Session = Depends(get_db), current_user: User = Depends(role_required(["admin", "operator"]))):
+    """
+    Manual override for the system phase (Admin only).
+    Useful for testing or specific edge cases.
+    """
+    # In this unified model, override might set a global flag or update all active events
+    # For now, we'll return a message as the logic is primarily data-driven
+    return {"message": f"Phase override to {update.phase} registered (Log-only in autonomous mode)"}

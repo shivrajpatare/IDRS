@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from models.database import SessionLocal, engine, Base
 from models.users import Role, User, CitizenProfile
 from models.domain import Zone, DisasterEvent, Facility, FacilityStatus
-from models.operations import SOSRequest
+from models.operations import SOSRequest, ResourceUnit
 from core.auth import get_password_hash
 
 def seed():
@@ -84,6 +84,35 @@ def seed():
     for i in range(1, 9):
         fac = Facility(type="shelter", name=f"Relief Camp {i}", zone_id=zone_objs[i%5].id, lat=12.9+i*0.01, lng=80.1+i*0.01, ownership_type="NGO")
         db.add(fac)
+    # 6. Resource Units
+    unit_types = ["ambulance", "rescue_team", "medical_mobile"]
+    for i in range(1, 6):
+        unit = ResourceUnit(
+            type=unit_types[i%3],
+            name=f"Unit {i}",
+            current_zone_id=zone_objs[i%5].id,
+            current_lat=13.0+i*0.01,
+            current_lng=80.2+i*0.01,
+            availability_status="available"
+        )
+        db.add(unit)
+
+    # 7. SOS Requests (Seed some active ones)
+    citizen = db.query(User).filter(User.email == "citizen_chennai@example.com").first()
+    for i in range(1, 4):
+        sos = SOSRequest(
+            citizen_id=citizen.id,
+            event_id=event_objs[0].id,
+            zone_id=zone_objs[0].id,
+            lat=13.012 + i*0.005,
+            lng=80.252 + i*0.005,
+            injury_level="Moderate" if i % 2 == 0 else "Severe",
+            priority_score=50.0 + i*10,
+            status="pending",
+            message=f"Seed distress signal {i}"
+        )
+        db.add(sos)
+
     db.commit()
     print("Seeding Complete")
     db.close()

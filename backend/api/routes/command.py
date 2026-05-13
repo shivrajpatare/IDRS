@@ -17,8 +17,9 @@ class ResolveNote(BaseModel):
     resolution_note: str
 
 @router.get("/sos")
-def get_sos_queue(db: Session = Depends(get_db), current_user = Depends(role_required(["operator", "admin"]))):
-    queue = db.query(SOSRequest).filter(SOSRequest.status != "resolved").order_by(SOSRequest.priority_score.desc()).all()
+def get_sos_queue(skip: int = 0, limit: int = 50, db: Session = Depends(get_db), current_user = Depends(role_required(["operator", "admin"]))):
+    """Fetch the SOS queue ordered by priority score with pagination"""
+    queue = db.query(SOSRequest).filter(SOSRequest.status != "resolved").order_by(SOSRequest.priority_score.desc()).offset(skip).limit(limit).all()
     return queue
 
 @router.get("/sos/heatmap")

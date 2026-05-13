@@ -6,8 +6,9 @@ from models.operations import ResourceUnit, Assignment
 router = APIRouter()
 
 @router.get("/")
-def get_resources(db: Session = Depends(get_db)):
-    return db.query(ResourceUnit).all()
+def get_resources(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    """List resource units with pagination"""
+    return db.query(ResourceUnit).offset(skip).limit(limit).all()
 
 @router.get("/recommendations")
 def get_recommendations(sos_lat: float, sos_lng: float, db: Session = Depends(get_db)):
@@ -19,5 +20,6 @@ def get_recommendations(sos_lat: float, sos_lng: float, db: Session = Depends(ge
     return {}
 
 @router.get("/assignments")
-def get_assignments(db: Session = Depends(get_db)):
-    return db.query(Assignment).all()
+def get_assignments(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    """List assignments with pagination"""
+    return db.query(Assignment).offset(skip).limit(limit).all()

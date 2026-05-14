@@ -11,7 +11,7 @@
 **Repository:** https://github.com/shivrajpatare/IDRS  
 
 **Project Overview:**  
-The Intelligent Disaster Response System (IDRS) is an advanced disaster response intelligence system designed for effective disaster management. It facilitates real-time situational awareness through a state-driven command dashboard, synchronizing multi-agency rescue assets with citizen distress signals. The system employs an AI-assisted orchestration layer to evaluate scenarios and provide coordinated response recommendations during complex urban emergencies.
+The Intelligent Disaster Response System (IDRS) is an AI-assisted disaster coordination system designed for effective disaster management. It provides real-time situational awareness through a state-driven command dashboard, synchronizing multi-agency rescue assets with citizen distress signals. The system employs an AI-assisted orchestration layer to evaluate scenarios and provide coordinated response recommendations during complex urban emergencies.
 
 ---
 
@@ -129,7 +129,11 @@ async def shutdown_event():
 
 @app.get("/health")
 def health_check():
-    return {"status": "ok", "db": "ok", "redis": "ok", "ml_service": "ok", "timestamp": datetime.utcnow().isoformat()}
+    return {
+        "status": "ok",
+        "db": "ok",
+        "timestamp": datetime.utcnow().isoformat()
+    }
 ```
 
 ### 6.2 Tactical AI Routing (idrs/backend/api/routes/tactical_ai.py)

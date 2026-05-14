@@ -45,7 +45,7 @@ The backend leverages an evaluation engine to assess the threat level of incomin
 
 ## 4. TECHNOLOGY STACK
 
-The IDRS architecture is built upon a high-performance, resilient stack optimized for real-time synchronization:
+The IDRS architecture is built upon a software stack designed for real-time operational coordination:
 
 *   **Frontend Ecosystem:** React, TypeScript, Tailwind CSS
 *   **Backend Orchestration:** FastAPI, Python
@@ -360,7 +360,7 @@ export default function CommandDashboard() {
 
 ## 7. ARCHITECTURAL NOTES
 
-The Intelligent Disaster Response System represents a significant advancement in software-driven disaster management. By combining reactive state management with proactive AI inference, IDRS provides a robust framework for improving coordination through synchronized operational workflows. The architecture decouples the real-time websocket updates from the intensive geospatial rendering, ensuring that the command dashboard remains responsive under high data loads typical of emergency events.
+The Intelligent Disaster Response System represents a workflow-oriented software framework in software-driven disaster management. By combining reactive state management with proactive AI inference, IDRS provides a robust framework for improving coordination through synchronized operational workflows. The architecture decouples the real-time websocket updates from the intensive geospatial rendering, ensuring that the command dashboard remains responsive under high data loads typical of emergency events.
 
 ---
 

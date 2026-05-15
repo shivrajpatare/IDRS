@@ -1,10 +1,39 @@
-node_modules
+# ENV
 .env
-__pycache__
-venv
-venv_new
+.env.*
+!.env.example
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Python
+venv/
+.venv/
+env/
+venv_new/
+__pycache__/
+
+# Firebase
+firebase-service-account.json
+*-service-account.json
+
+# Node
+node_modules/
+
+# Build
+dist/
+build/
+.next/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
 .DS_Store
-dist
-build
-*.log
+
+# Antigravity Internal
 .gemini
+.antigravityignore

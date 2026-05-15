@@ -2,8 +2,8 @@ from pydantic_settings import BaseSettings
 from pydantic import Field
 
 class Settings(BaseSettings):
-    database_url: str = Field(default="sqlite:///./test.db", env="DATABASE_URL")
-    secret_key: str = Field(default="test-secret-key", env="SECRET_KEY")
+    database_url: str = Field(default="sqlite:///./idrs.db", env="DATABASE_URL")
+    secret_key: str = Field(..., env="SECRET_KEY")
     firebase_credentials_path: str = Field(default="backend/firebase-service-account.json", env="FIREBASE_CREDENTIALS_PATH")
     ml_service_url: str = Field(default="http://localhost:8002", env="ML_SERVICE_URL")
     openweather_api_key: str = Field(default="", env="OPENWEATHER_API_KEY")

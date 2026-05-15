@@ -12,8 +12,10 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="IDRS Backend", description="Adaptive Disaster Lifecycle Management Platform", version="1.0.0")
 
+import os
 # CORS
-origins = [
+allowed_origins_env = os.getenv("ALLOWED_ORIGINS", "")
+origins = allowed_origins_env.split(",") if allowed_origins_env else [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://localhost:3000",

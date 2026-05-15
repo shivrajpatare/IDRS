@@ -50,7 +50,7 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const res = await axios.post('http://127.0.0.1:8000/api/v1/auth/refresh', {}, { withCredentials: true });
+        const res = await api.post('/auth/refresh', {}, { withCredentials: true });
         const { access_token } = res.data;
         localStorage.setItem('idrs_token', access_token);
         api.defaults.headers.common.Authorization = `Bearer ${access_token}`;

@@ -38,7 +38,8 @@ export function useOfflineSync() {
 
     for (const req of queue) {
       try {
-        await fetch('http://localhost:8000/api/v1/citizen/sos', {
+        const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
+        await fetch(`${baseUrl}/citizen/sos`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(req)

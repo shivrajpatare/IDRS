@@ -35,7 +35,7 @@ export function useSOS() {
     fetchSOS(); // Initial fetch
     
     // Connect to WebSocket for real-time updates
-    const wsUrl = import.meta.env.VITE_WS_URL || 'ws://127.0.0.1:8000/ws/global';
+    const wsUrl = import.meta.env.VITE_WS_URL || 'ws://localhost:8000/ws/global';
     const ws = new WebSocket(wsUrl);
     
     ws.onmessage = (event) => {

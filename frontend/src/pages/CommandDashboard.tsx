@@ -101,9 +101,9 @@ export default function CommandDashboard() {
 
   // 🛰️ Tactical Movement & Interception State
   const [rescueUnits, setRescueUnits] = useState([
-    { id: 'AS-01', type: 'truck', lat: 13.085, lng: 80.25, targetId: null, speed: 45, status: 'Active' },
-    { id: 'AS-02', type: 'heli', lat: 13.11, lng: 80.28, targetId: null, speed: 120, status: 'Patrol' },
-    { id: 'AS-03', type: 'truck', lat: 13.06, lng: 80.22, targetId: null, speed: 40, status: 'Ready' }
+    { id: 'AS-01', type: 'truck', lat: 13.085, lng: 80.25, targetId: null as string | null, speed: 45, status: 'Active' },
+    { id: 'AS-02', type: 'heli', lat: 13.11, lng: 80.28, targetId: null as string | null, speed: 120, status: 'Patrol' },
+    { id: 'AS-03', type: 'truck', lat: 13.06, lng: 80.22, targetId: null as string | null, speed: 40, status: 'Ready' }
   ]);
   const [tacticalLogs, setTacticalLogs] = useState<any[]>([
     { id: 1, time: '18:07:01', msg: 'SATELLITE SYNC ESTABLISHED. SCANNING SECTOR 4...', type: 'sys' }

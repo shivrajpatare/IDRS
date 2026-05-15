@@ -119,11 +119,11 @@ export default function LoginPage() {
         >
           <motion.div variants={itemVariant} className="flex items-center gap-5 mb-8 xl:mb-12">
             <div className="w-12 h-12 xl:w-16 xl:h-16 flex items-center justify-center group cursor-pointer hover:scale-110 transition-transform">
-              <img src="/ndma_logo.png" alt="NDMA Logo" className="w-full h-full object-contain drop-shadow-lg" />
+              <img src="/idrs_logo.png" alt="IDRS Logo" className="w-full h-full object-contain drop-shadow-lg" />
             </div>
             <div>
-              <h2 className="text-xl xl:text-3xl font-bold font-['Space_Grotesk'] text-[#2c2f31] uppercase tracking-tight leading-none">NDMA | <span className="text-[#00666c]">IDRS</span></h2>
-              <p className="text-[10px] xl:text-[12px] font-bold text-[#00666c] uppercase tracking-[0.4em] mt-2 opacity-60">National Intelligence Nexus</p>
+              <h2 className="text-xl xl:text-3xl font-bold font-['Space_Grotesk'] text-[#2c2f31] uppercase tracking-tight leading-none">IDRS | <span className="text-[#00666c]">CORE</span></h2>
+              <p className="text-[10px] xl:text-[12px] font-bold text-[#00666c] uppercase tracking-[0.4em] mt-2 opacity-60">Disaster Response Framework</p>
             </div>
           </motion.div>
 
